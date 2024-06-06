@@ -859,7 +859,7 @@ def compas_num_cohorts(method, explainer_type='shap'):
                 penalties[k - 2, t] = penalty
         print('penalty:')
         print(f'    {np.mean(penalties[2])} +- {np.std(penalties[2])}')
-        np.save(f'output/bike_shap/{method}_num_cohorts.npy', penalties)
+        np.save(f'output/compas_shap/{method}_num_cohorts.npy', penalties)
 
 
 def main():

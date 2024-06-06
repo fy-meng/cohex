@@ -9,12 +9,24 @@ import xgboost as xgb
 
 class COMPAS:
     def __init__(self):
-        compas_dataset = CompasPerformanceDatasetWrapper.generate_dataset_class('compas')()
-        self.X_train, self.X_test = compas_dataset.get_X(format=pd.DataFrame)
-        self.y_train, self.y_test = compas_dataset.get_y(format=pd.Series)
+        if not os.path.exists('./scenario/compas_data'):
+            compas_dataset = CompasPerformanceDatasetWrapper.generate_dataset_class('compas')()
+            self.X_train, self.X_test = compas_dataset.get_X(format=pd.DataFrame)
+            self.y_train, self.y_test = compas_dataset.get_y(format=pd.Series)
 
-        self.y_train = self.y_train.astype(int)
-        self.y_test = self.y_test.astype(int)
+            self.y_train = self.y_train.astype(int)
+            self.y_test = self.y_test.astype(int)
+
+            os.mkdir('./scenario/compas_data')
+            self.X_train.to_csv('./scenario/compas_data/X_train.csv', index=False)
+            self.X_test.to_csv('./scenario/compas_data/X_test.csv', index=False)
+            self.y_train.to_csv('./scenario/compas_data/y_train.csv', index=False)
+            self.y_test.to_csv('./scenario/compas_data/y_test.csv', index=False)
+        else:
+            self.X_train = pd.read_csv('./scenario/compas_data/X_train.csv')
+            self.X_test = pd.read_csv('./scenario/compas_data/X_test.csv')
+            self.y_train = pd.read_csv('./scenario/compas_data/y_train.csv')
+            self.y_test = pd.read_csv('./scenario/compas_data/y_test.csv')
 
         self.feature_names = self.X_train.columns.tolist()
 

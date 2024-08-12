@@ -14,7 +14,7 @@ class MedicalScenario:
 
         self.X = np.array([age, history]).T
 
-        threshold = (4 * (age / 100) ** 2 + (0.75 * history) ** 2) > 0.4
+        threshold = (4 * age ** 2 + (0.75 * history) ** 2) > 0.4
         self.y = np.zeros(self.X.shape[0])
         self.y[threshold] = rng.uniform(0, 1, np.count_nonzero(threshold)) < 0.8
         self.y[np.logical_not(threshold)] = rng.uniform(0, 1, np.count_nonzero(1 - threshold)) < 0.2
